@@ -92,4 +92,5 @@ document.getElementById('downloadPDF').addEventListener('click', async () => {
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('urlInput').value = "https://instagram.com/galihkaruniap";
   document.getElementById('generateBtn').click();
+  document.getElementById('urlInput').value = "";
 });
