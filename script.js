@@ -1,85 +1,95 @@
-let qr;
+let qrCode;
 
 document.getElementById('generateBtn').addEventListener('click', () => {
   const url = document.getElementById('urlInput').value.trim();
-  const logoFile = document.getElementById('logoInput').files[0];
-  const qrcodeContainer = document.getElementById('qrcode');
-  const downloadBtn = document.getElementById('downloadBtn');
   const linecolor = document.getElementById('linecolor').value;
   const backcolor = document.getElementById('backcolor').value;
+  const dotStyle = document.getElementById('dotStyle').value;
+  const logoFile = document.getElementById('logoInput').files[0];
+  const qrcodeContainer = document.getElementById('qrcode');
+  const downloadSection = document.getElementById('downloadSection');
 
   if (!url) {
-    alert("Please enter a valid URL.");
+    alert("Masukkan URL terlebih dahulu.");
     return;
   }
 
   qrcodeContainer.innerHTML = "";
-  downloadBtn.hidden = true;
+  downloadSection.hidden = true;
 
-  const tempDiv = document.createElement("div");
-  qrcodeContainer.appendChild(tempDiv);
+  const generateQRCode = (logoImage = null) => {
+    qrCode = new QRCodeStyling({
+      width: 300,
+      height: 300,
+      type: "canvas",
+      data: url,
+      image: logoImage,
+      dotsOptions: {
+        color: linecolor,
+        type: dotStyle
+      },
+      backgroundOptions: {
+        color: backcolor
+      },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 10
+      }
+    });
 
-  const qr = new QRCode(tempDiv, {
-    text: url,
-    width: 256,
-    height: 256,
-    colorDark: linecolor,
-    colorLight: backcolor,
-    correctLevel: QRCode.CorrectLevel.H
-  });
+    qrCode.append(qrcodeContainer);
+    downloadSection.hidden = false;
+  };
 
-  setTimeout(() => {
-    const imgTag = tempDiv.querySelector("img");
-    if (!imgTag) return;
+  if (logoFile) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      generateQRCode(e.target.result);
+    };
+    reader.readAsDataURL(logoFile);
+  } else {
+    generateQRCode();
+  }
+});
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = imgTag.naturalWidth;
-    canvas.height = imgTag.naturalHeight;
+document.getElementById('downloadPNG').addEventListener('click', () => {
+  if (qrCode) {
+    qrCode.download({ name: "qr-code", extension: "png" });
+  }
+});
 
-    ctx.drawImage(imgTag, 0, 0);
+document.getElementById('downloadJPG').addEventListener('click', async () => {
+  if (qrCode) {
+    const canvas = await qrCode.getRawData("jpeg");
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/jpeg");
+    link.download = "qr-code.jpg";
+    link.click();
+  }
+});
 
-    if (logoFile) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const logo = new Image();
-        logo.onload = function () {
-          // Tentukan ukuran logo relatif terhadap QR
-          const maxLogoSize = canvas.width * 0.25;
-          let logoWidth = logo.width;
-          let logoHeight = logo.height;
+document.getElementById('downloadPDF').addEventListener('click', async () => {
+  if (qrCode) {
+    const canvas = await qrCode.getRawData("png");
+    const imgData = canvas.toDataURL("image/png");
 
-          // Skala proporsional
-          const scale = Math.min(maxLogoSize / logoWidth, maxLogoSize / logoHeight);
-          logoWidth *= scale;
-          logoHeight *= scale;
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
 
-          const x = (canvas.width - logoWidth) / 2;
-          const y = (canvas.height - logoHeight) / 2;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const qrSize = 80;
 
-          // Tambahkan border putih
-          const padding = 8;
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(x - padding, y - padding, logoWidth + 2 * padding, logoHeight + 2 * padding);
+    const x = (pageWidth - qrSize) / 2;
+    pdf.addImage(imgData, 'PNG', x, 40, qrSize, qrSize);
+    pdf.save('qr-code.pdf');
+  }
+});
 
-          // Gambar logo
-          ctx.drawImage(logo, x, y, logoWidth, logoHeight);
-
-          qrcodeContainer.innerHTML = "";
-          qrcodeContainer.appendChild(canvas);
-
-          downloadBtn.href = canvas.toDataURL("image/png");
-          downloadBtn.hidden = false;
-        };
-        logo.src = e.target.result;
-      };
-      reader.readAsDataURL(logoFile);
-    } else {
-      qrcodeContainer.innerHTML = "";
-      qrcodeContainer.appendChild(canvas);
-
-      downloadBtn.href = canvas.toDataURL("image/png");
-      downloadBtn.hidden = false;
-    }
-  }, 300);
+// Preview QR Code default saat halaman pertama dibuka
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('urlInput').value = "https://instagram.com/galihkaruniap";
+  document.getElementById('generateBtn').click();
 });

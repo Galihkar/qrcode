@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QR Code Generator</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="style.css" />
+  <meta name="keywords" content="qr code generator, create qr codes, qr code maker, qr generator, qr code creator, qr code, qr code with logo, free qr codes, qr code generator free">
 </head>
 <body class="bg-light">
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <h3 class="mb-4 fw-bold">Create a Bitly Code</h3>
+        <h3 class="mb-4 fw-bold">Create Your QRCode</h3>
         <div class="row g-4">
           <div class="col-md-7">
+<!-- Left: Input -->            
             <div class="p-4 bg-white rounded shadow-sm">
               <div class="mb-3">
                 <label class="form-label fw-semibold">Destination</label>
                 <input type="url" id="urlInput" class="form-control" placeholder="https://example.com/my-long-url" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Title (optional)</label>
-                <input type="text" id="titleInput" class="form-control" placeholder="Optional title">
               </div>
               <div class="mb-3">
                 <label class="form-label fw-semibold">Upload your image/logo (optional)</label>
@@ -29,27 +29,42 @@
               </div>
               <button id="generateBtn" class="btn btn-primary w-100 mt-2">Generate QR Code</button>
             </div>
-          </div>
-
-          <div class="col-md-5 text-center">
-            <h6 class="fw-semibold">Preview</h6>
-            <div id="qrcode" class="bg-white p-3 rounded shadow-sm d-inline-block"></div>
-            <div class="mt-3">
-              <a id="downloadBtn" class="btn btn-outline-secondary btn-sm" href="#" download="qrcode.png" hidden>Download QR</a>
-            </div>
-          </div>
-
-          <div class="col-md-7">
-            <div class="p-4 bg-white rounded shadow-sm">
+<!-- Left: Setting -->
+            <div id="setting" class="p-4 bg-white rounded shadow-sm">
+              <h5 class="mb-4 fw-bold">Customize</h5>
               <div class="mb-3 row">
                 <div class="col-md-6">
-                  <label for="linecolor" class="form-label">Warna Garis QR</label>
+                  <label for="linecolor" class="form-label">QRCode line color</label>
                   <input type="color" class="form-control form-control-color" id="linecolor" value="#000000">
                 </div>
                 <div class="col-md-6">
-                  <label for="backcolor" class="form-label">Warna Latar QR</label>
+                  <label for="backcolor" class="form-label">QRCode background color</label>
                   <input type="color" class="form-control form-control-color" id="backcolor" value="#ffffff">
                 </div>
+                <div class="mb-3">
+                  <label for="dotStyle" class="form-label">Line shapes</label>
+                  <select class="form-select" id="dotStyle">
+                    <option value="square">Square</option>
+                    <option value="dots">Dots</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="extra-rounded">Extra Rounded</option>
+                    <option value="classy">Classy</option>
+                    <option value="classy-rounded">Classy Rounded</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- Right: Preview -->
+          <div class="col-md-5 text-center">
+            <h6 class="fw-semibold">Preview</h6>
+            <div id="qrcode" class="bg-white p-3 rounded shadow-sm d-inline-block"></div>
+            <div id="downloadSection" class="mt-3" hidden>
+              <label class="form-label">Dowload:</label>
+              <div class="d-flex gap-2 justify-content-center">
+                <button id="downloadPNG" class="btn btn-outline-primary">PNG</button>
+                <button id="downloadJPG" class="btn btn-outline-primary">JPG</button>
+                <button id="downloadPDF" class="btn btn-outline-primary">PDF</button>
               </div>
             </div>
           </div>

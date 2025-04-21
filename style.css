@@ -1,13 +1,12 @@
 body {
 	font-family: 'Segoe UI', sans-serif;
 }
-#qrcode{
-	min-width: 256px;
-	min-height: 256px;
+#setting{
+	margin-top: 5%
 }
 #qrcode img, #qrcode canvas {
 	max-width: 100%;
-	height: auto;
+	min-height: 80%;
 }
 #linecolor, #backcolor{
 	min-width: 100%;
