@@ -1,5 +1,4 @@
 {
-  "name": "QRCode Generator",
   "short_name": "QRCode",
   "start_url": ".",
   "display": "standalone",
