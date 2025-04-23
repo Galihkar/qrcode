@@ -1,0 +1,21 @@
+{
+  "name": "QRCode Generator",
+  "short_name": "QRCode",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#616161",
+  "theme_color": "#f50000",
+  "description": "Using this to create an QR Code",
+  "icons": [
+    {
+      "src": "https://static.vecteezy.com/system/resources/previews/027/501/741/non_2x/simple-qr-code-icon-the-icon-can-be-used-for-websites-print-templates-presentation-templates-illustrations-etc-free-vector.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://static.vecteezy.com/system/resources/previews/027/501/741/non_2x/simple-qr-code-icon-the-icon-can-be-used-for-websites-print-templates-presentation-templates-illustrations-etc-free-vector.jpg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
