@@ -4,7 +4,7 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#616161",
-  "theme_color": "#f50000",
+  "theme_color": "#e3e3e3",
   "description": "Using this to create an QR Code",
   "icons": [
     {
