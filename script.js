@@ -8,6 +8,8 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   const logoFile = document.getElementById('logoInput').files[0];
   const qrcodeContainer = document.getElementById('qrcode');
   const downloadSection = document.getElementById('downloadSection');
+  const { jsPDF } = window.jspdf;
+
 
   if (!url) {
     alert("Masukkan URL terlebih dahulu.");
@@ -52,27 +54,42 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   }
 });
 
-document.getElementById('downloadPNG').addEventListener('click', () => {
+document.getElementById('downloadPNG').addEventListener('click', async () => {
   if (qrCode) {
-    qrCode.download({ name: "qr-code", extension: "png" });
+    const blob = await qrCode.getRawData("png"); // Mendapatkan blob untuk PNG
+    const url = URL.createObjectURL(blob); // Membuat URL untuk blob
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "qr-code.png";
+    link.click();
+
+    // Menghapus object URL setelah selesai digunakan
+    URL.revokeObjectURL(url);
   }
 });
 
 document.getElementById('downloadJPG').addEventListener('click', async () => {
   if (qrCode) {
-    const canvas = await qrCode.getRawData("jpeg");
+    const blob = await qrCode.getRawData("jpeg"); // Mendapatkan blob untuk JPEG
+    const url = URL.createObjectURL(blob); // Membuat URL untuk blob
+
     const link = document.createElement("a");
-    link.href = canvas.toDataURL("image/jpeg");
+    link.href = url;
     link.download = "qr-code.jpg";
     link.click();
+
+    // Menghapus object URL setelah selesai digunakan
+    URL.revokeObjectURL(url);
   }
 });
 
 document.getElementById('downloadPDF').addEventListener('click', async () => {
   if (qrCode) {
-    const canvas = await qrCode.getRawData("png");
-    const imgData = canvas.toDataURL("image/png");
+    const blob = await qrCode.getRawData("png"); // Ambil blob PNG
+    const url = URL.createObjectURL(blob); // Buat URL dari blob
 
+    const { jsPDF } = window.jspdf; // Ekstrak jsPDF dari window.jspdf
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -81,10 +98,12 @@ document.getElementById('downloadPDF').addEventListener('click', async () => {
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const qrSize = 80;
-
     const x = (pageWidth - qrSize) / 2;
-    pdf.addImage(imgData, 'PNG', x, 40, qrSize, qrSize);
+
+    pdf.addImage(url, 'PNG', x, 40, qrSize, qrSize);
     pdf.save('qr-code.pdf');
+
+    URL.revokeObjectURL(url);
   }
 });
 
