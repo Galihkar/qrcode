@@ -10,55 +10,58 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/027/501/741/non_2x/simple-qr-code-icon-the-icon-can-be-used-for-websites-print-templates-presentation-templates-illustrations-etc-free-vector.jpg" sizes="32x32" />  
-  <meta name="keywords" content="qr code generator, create qr codes, qr code maker, qr generator, qr code creator, qr code, qr code with logo, free qr codes, qr code generator free"/>
+  <meta name="keywords" content="qr code generator, create qr codes, qr code maker, qr generator, qr code creator, qr code, qr code with logo, free qr codes, qr code generator free">
+  <meta name="theme-color" content="#f50000" />
 
 </head>
 <body class="bg-light">
   <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <h3 class="mb-4 fw-bold">Create Your QRCode</h3>
+    <ul class="nav nav-tabs mb-4" id="tabMenu" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="generator-tab" data-bs-toggle="tab" data-bs-target="#generator" type="button" role="tab">Generate QR</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="decoder-tab" data-bs-toggle="tab" data-bs-target="#decoder" type="button" role="tab">Decode QR</button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- Tab: Generator -->
+      <div class="tab-pane fade show active" id="generator" role="tabpanel">
         <div class="row g-4">
           <div class="col-md-7">
-<!-- Left: Input -->            
             <div class="p-4 bg-white rounded shadow-sm">
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Destination</label>
-                <input type="url" id="urlInput" class="form-control" placeholder="https://example.com/my-long-url" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Upload your image/logo (optional)</label>
-                <input type="file" id="logoInput" class="form-control" accept="image/*">
-              </div>
-              <button id="generateBtn" class="btn btn-primary w-100 mt-2">Generate QR Code</button>
+              <label class="form-label fw-semibold">Destination</label>
+              <input type="url" id="urlInput" class="form-control mb-3" placeholder="https://example.com" required>
+              <label class="form-label fw-semibold">Upload Logo (optional)</label>
+              <input type="file" id="logoInput" class="form-control mb-3" accept="image/*">
+              <button id="generateBtn" class="btn btn-primary w-100">Generate QR Code</button>
             </div>
-<!-- Left: Setting -->
-            <div id="setting" class="p-4 bg-white rounded shadow-sm">
+
+            <div id="setting" class="p-4 bg-white rounded shadow-sm mt-4">
               <h5 class="mb-4 fw-bold">Customize</h5>
-              <div class="mb-3 row">
+              <div class="row mb-3">
                 <div class="col-md-6">
-                  <label for="linecolor" class="form-label">QRCode line color</label>
-                  <input type="color" class="form-control form-control-color" id="linecolor" value="#000000">
+                  <label for="linecolor" class="form-label">Line Color</label>
+                  <input type="color" id="linecolor" class="form-control form-control-color" value="#000000">
                 </div>
                 <div class="col-md-6">
-                  <label for="backcolor" class="form-label">QRCode background color</label>
-                  <input type="color" class="form-control form-control-color" id="backcolor" value="#ffffff">
-                </div>
-                <div class="mb-3">
-                  <label for="dotStyle" class="form-label">Line shapes</label>
-                  <select class="form-select" id="dotStyle">
-                    <option value="square">Square</option>
-                    <option value="dots">Dots</option>
-                    <option value="rounded">Rounded</option>
-                    <option value="extra-rounded">Extra Rounded</option>
-                    <option value="classy">Classy</option>
-                    <option value="classy-rounded">Classy Rounded</option>
-                  </select>
+                  <label for="backcolor" class="form-label">Background Color</label>
+                  <input type="color" id="backcolor" class="form-control form-control-color" value="#ffffff">
                 </div>
               </div>
+              <label for="dotStyle" class="form-label">Dot Style</label>
+              <select class="form-select" id="dotStyle">
+                <option value="square">Square</option>
+                <option value="dots">Dots</option>
+                <option value="rounded">Rounded</option>
+                <option value="extra-rounded">Extra Rounded</option>
+                <option value="classy">Classy</option>
+                <option value="classy-rounded">Classy Rounded</option>
+              </select>
             </div>
           </div>
-<!-- Right: Preview -->
+
           <div class="col-md-5 text-center">
             <h6 class="fw-semibold">Preview</h6>
             <div id="qrcode" class="bg-white p-3 rounded shadow-sm d-inline-block"></div>
@@ -71,13 +74,22 @@
               </div>
             </div>
           </div>
-
         </div>
+      </div>
+
+      <!-- Tab: Decoder -->
+      <div class="tab-pane fade" id="decoder" role="tabpanel">
+        <div class="mb-3">
+          <label for="barcodeInput" class="form-label">Upload QR Code Image</label>
+          <input type="file" class="form-control" id="barcodeInput" accept="image/*">
+        </div>
+        <div id="result" class="mt-4"></div>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
