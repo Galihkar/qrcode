@@ -124,9 +124,12 @@ if (barcodeInput) {
         resultContainer.innerHTML += `
           <div class="table-responsive">
             <table class="table table-bordered">
-              <tr><th>Raw Text</th><td>${result.text}</td></tr>
-              <tr><th>Barcode Format</th><td>${result.barcodeFormat}</td></tr>
-              <tr><th>Result Metadata</th><td>${JSON.stringify(result.resultMetadata || {}, null, 2)}</td></tr>
+              <thead><tr><th colspan="2">Decode Succeeded</th></tr></thead>
+              <tr><th>Raw text</th><td>${result.text}</td></tr>
+              <tr><th>Raw bytes</th><td>${Array.from(result.rawBytes || []).join(', ')}</td></tr>
+              <tr><th>Barcode format</th><td>${result.barcodeFormat}</td></tr>
+              <tr><th>Parsed Result Type</th><td>${result.resultMetadata?.SymbologyIdentifier || '-'}</td></tr>
+              <tr><th>Parsed Result</th><td>${result.text}</td></tr>
             </table>
           </div>`;
       } catch (err) {
