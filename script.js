@@ -126,10 +126,6 @@ if (barcodeInput) {
             <table class="table table-bordered">
               <thead><tr><th colspan="2">Decode Succeeded</th></tr></thead>
               <tr><th>Raw text</th><td>${result.text}</td></tr>
-              <tr><th>Raw bytes</th><td>${Array.from(result.rawBytes || []).join(', ')}</td></tr>
-              <tr><th>Barcode format</th><td>${result.barcodeFormat}</td></tr>
-              <tr><th>Parsed Result Type</th><td>${result.resultMetadata?.SymbologyIdentifier || '-'}</td></tr>
-              <tr><th>Parsed Result</th><td>${result.text}</td></tr>
             </table>
           </div>`;
       } catch (err) {
